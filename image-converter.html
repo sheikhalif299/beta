@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Image Converter Online – JPG, PNG, WEBP</title>
+  <meta name="description" content="Convert images online between JPG, PNG, and WEBP formats instantly. Fast, secure, and free image converter." />
+  <meta name="keywords" content="image converter, jpg to png, png to webp, online image converter" />
+  <meta name="author" content="Sheikh Alif" />
+
+  <!-- Adsense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXX"
+    crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --purple:#8b5cf6;
+      --pink:#ec4899;
+      --cyan:#22d3ee;
+      --glass:rgba(255,255,255,.14);
+      --border:rgba(255,255,255,.28);
+      --text-muted:#cbd5e1;
+      --radius-lg:22px;
+      --radius-md:16px;
+    }
+
+    * { box-sizing:border-box; font-family:Inter,system-ui,sans-serif; }
+
+    body {
+      margin:0;
+      min-height:100vh;
+      color:#f9fafb;
+      background:
+        radial-gradient(circle at top left,#7c3aed,transparent 35%),
+        radial-gradient(circle at bottom right,#06b6d4,transparent 35%),
+        linear-gradient(135deg,#020617,#0f172a);
+    }
+
+    header {
+      text-align:center;
+      padding:3.5rem 1rem 2.5rem;
+    }
+
+    header h1 {
+      font-size:clamp(2.3rem,5vw,3.4rem);
+      background:linear-gradient(90deg,var(--purple),var(--cyan));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      text-shadow:0 0 35px rgba(139,92,246,.7);
+    }
+
+    header p {
+      max-width:650px;
+      margin:1rem auto 0;
+      color:var(--text-muted);
+    }
+
+    main {
+      max-width:1200px;
+      margin:auto;
+      padding:1.5rem;
+      display:grid;
+      gap:2rem;
+    }
+
+    .card {
+      background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+      border:1px solid var(--border);
+      border-radius:var(--radius-lg);
+      padding:2rem;
+      backdrop-filter:blur(22px);
+      box-shadow:0 30px 60px rgba(0,0,0,.35);
+    }
+
+    h2 {
+      margin-top:0;
+      background:linear-gradient(90deg,var(--purple),var(--pink));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .controls {
+      max-width:520px;
+      display:grid;
+      gap:1.2rem;
+    }
+
+    input[type="file"], select {
+      width:100%;
+      padding:.75rem;
+      border-radius:var(--radius-md);
+      background:rgba(255,255,255,.08);
+      border:1px solid var(--border);
+      color:white;
+    }
+
+    label {
+      font-size:.9rem;
+      color:var(--text-muted);
+    }
+
+    button {
+      padding:.9rem 1.2rem;
+      border:none;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--purple),var(--pink));
+      color:white;
+      font-size:1rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:.3s ease;
+      box-shadow:0 12px 30px rgba(139,92,246,.6);
+    }
+
+    button:hover {
+      transform:translateY(-2px) scale(1.03);
+      box-shadow:0 18px 45px rgba(236,72,153,.7);
+    }
+
+    .preview {
+      margin-top:2rem;
+      display:grid;
+      gap:1.5rem;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    }
+
+    .preview img {
+      width:100%;
+      border-radius:var(--radius-md);
+      box-shadow:0 0 30px rgba(34,211,238,.5);
+    }
+
+    .ad-slot {
+      text-align:center;
+      padding:2rem;
+      border:1px dashed var(--border);
+      border-radius:var(--radius-lg);
+      color:var(--text-muted);
+    }
+
+    footer {
+      text-align:center;
+      padding:2.5rem 1rem;
+      font-size:.9rem;
+      color:var(--text-muted);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Image Converter</h1>
+  <p>Convert images between JPG, PNG, and WEBP formats instantly.</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>Convert Image</h2>
+
+    <div class="controls">
+      <input type="file" id="imageInput" accept="image/*">
+
+      <div>
+        <label>Convert to format</label>
+        <select id="formatSelect">
+          <option value="image/png">PNG</option>
+          <option value="image/jpeg">JPG</option>
+          <option value="image/webp">WEBP</option>
+        </select>
+      </div>
+
+      <button onclick="convertImage()">Convert & Download</button>
+    </div>
+
+    <div class="preview" id="preview"></div>
+  </section>
+
+  <!-- ADS -->
+  <section class="ad-slot">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-XXXXXXXXXXXX"
+      data-ad-slot="YYYYYYYYYY"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </section>
+
+</main>
+
+<footer>
+  © 2025 Sheikh Alif · Image Converter Tool
+</footer>
+
+<script>
+let img = new Image();
+let uploadedFileName = "converted-image";
+
+document.getElementById("imageInput").addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  uploadedFileName = file.name.split(".")[0];
+  img.src = URL.createObjectURL(file);
+});
+
+function convertImage() {
+  if (!img.src) {
+    alert("Please upload an image first");
+    return;
+  }
+
+  const format = document.getElementById("formatSelect").value;
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = img.width;
+  canvas.height = img.height;
+  ctx.drawImage(img, 0, 0);
+
+  const dataURL = canvas.toDataURL(format, 0.92);
+  const ext = format.split("/")[1];
+
+  const link = document.createElement("a");
+  link.download = `${uploadedFileName}.${ext}`;
+  link.href = dataURL;
+  link.click();
+
+  document.getElementById("preview").innerHTML = `<img src="${dataURL}" alt="Converted Image Preview">`;
+}
+</script>
+
+</body>
+</html>
